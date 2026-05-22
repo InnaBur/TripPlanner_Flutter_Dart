@@ -1,84 +1,848 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import '../models/place.dart';
 
-class HiddenGemsScreen extends StatelessWidget {
+class HiddenGemsScreen extends StatefulWidget {
   const HiddenGemsScreen({super.key});
 
-  // Тестові дані прихованих місць
-  static final List<Place> _gems = [
+  @override
+  State<HiddenGemsScreen> createState() => _HiddenGemsScreenState();
+}
+
+class _HiddenGemsScreenState extends State<HiddenGemsScreen> {
+  final List<Place> _gems = [
     Place(
       id: '1',
-      name: 'Секретний сад у Граці',
-      description: 'Маленький сад у центрі міста, відомий лише місцевим.',
+      name: 'Secret Garden in Graz',
+      description:
+      'A tiny hidden courtyard in the old town, known only to locals. Perfect for a quiet coffee break.',
       latitude: 47.0707,
       longitude: 15.4395,
-      category: 'hidden_gem',
+      category: 'Nature',
       rating: 4.8,
+      imageUrl:
+      'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600',
+      address: 'Herrengasse, Graz',
+      tags: ['Quiet', 'Nature', 'Local'],
     ),
     Place(
       id: '2',
-      name: 'Стара кав\'ярня 1890',
-      description: 'Найстаріша кав\'ярня у місті з оригінальним інтер\'єром.',
+      name: 'Old Café 1890',
+      description:
+      'The oldest café in town with original Art Nouveau interior. Their coffee ritual is legendary.',
       latitude: 47.0710,
       longitude: 15.4400,
-      category: 'restaurant',
+      category: 'Café',
       rating: 4.6,
+      imageUrl:
+      'https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=600',
+      address: 'Sporgasse 12, Graz',
+      tags: ['Historic', 'Coffee', 'Cozy'],
     ),
     Place(
       id: '3',
-      name: 'Підземний музей',
-      description: 'Невідомий більшості туристів підземний музей історії.',
+      name: 'Underground Passage Museum',
+      description:
+      'A forgotten underground passage from WWII turned into a small atmospheric museum.',
       latitude: 47.0720,
       longitude: 15.4410,
-      category: 'museum',
+      category: 'Museum',
       rating: 4.9,
+      imageUrl:
+      'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600',
+      address: 'Schlossberg, Graz',
+      tags: ['History', 'Unique', 'Indoors'],
+    ),
+    Place(
+      id: '4',
+      name: 'Rooftop Sunset Spot',
+      description:
+      'A public rooftop terrace almost no tourist knows about. Best sunset view in the city.',
+      latitude: 47.0715,
+      longitude: 15.4420,
+      category: 'Viewpoint',
+      rating: 5.0,
+      imageUrl:
+      'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600',
+      address: 'Uhrturm area, Graz',
+      tags: ['Sunset', 'Views', 'Romantic'],
     ),
   ];
+
+  String _selectedFilter = 'All';
+  final List<String> _filters = [
+    'All',
+    'Nature',
+    'Café',
+    'Museum',
+    'Viewpoint',
+    'Other'
+  ];
+
+  List<Place> get _filtered => _selectedFilter == 'All'
+      ? _gems
+      : _gems.where((p) => p.category == _selectedFilter).toList();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Hidden Gems 💎'),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+      backgroundColor: const Color(0xFF0D0D0D),
+      body: CustomScrollView(
+        slivers: [
+          // ── Header ──
+          SliverAppBar(
+            pinned: true,
+            expandedHeight: 140,
+            backgroundColor: const Color(0xFF0D0D0D),
+            flexibleSpace: FlexibleSpaceBar(
+              titlePadding:
+              const EdgeInsets.fromLTRB(20, 0, 0, 16),
+              title: const Text(
+                'Hidden Gems 💎',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w800,
+                  fontSize: 22,
+                ),
+              ),
+              background: Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [Color(0xFF1A0A2E), Color(0xFF0D0D0D)],
+                  ),
+                ),
+                child: const Center(
+                  child: Icon(Icons.diamond_outlined,
+                      color: Colors.white10, size: 100),
+                ),
+              ),
+            ),
+          ),
+
+          // ── Filter chips ──
+          SliverToBoxAdapter(
+            child: SizedBox(
+              height: 50,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 16, vertical: 8),
+                itemCount: _filters.length,
+                itemBuilder: (_, i) {
+                  final f = _filters[i];
+                  final selected = f == _selectedFilter;
+                  return GestureDetector(
+                    onTap: () => setState(() => _selectedFilter = f),
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      margin: const EdgeInsets.only(right: 8),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: selected
+                            ? Colors.white
+                            : Colors.white.withOpacity(0.07),
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          color: selected
+                              ? Colors.white
+                              : Colors.white.withOpacity(0.12),
+                        ),
+                      ),
+                      child: Text(
+                        f,
+                        style: TextStyle(
+                          color: selected
+                              ? Colors.black
+                              : Colors.white60,
+                          fontWeight: selected
+                              ? FontWeight.w700
+                              : FontWeight.normal,
+                          fontSize: 13,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+
+          // ── Gem count ──
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(20, 8, 20, 4),
+              child: Text(
+                '${_filtered.length} place${_filtered.length == 1 ? '' : 's'} found',
+                style: const TextStyle(
+                    color: Colors.white38, fontSize: 12),
+              ),
+            ),
+          ),
+
+          // ── Gem cards ──
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+                  (context, index) => _GemCard(
+                gem: _filtered[index],
+                onDelete: () {
+                  final gem = _filtered[index];
+                  setState(() => _gems.removeWhere((g) => g.id == gem.id));
+                },
+              ),
+              childCount: _filtered.length,
+            ),
+          ),
+
+          const SliverToBoxAdapter(child: SizedBox(height: 100)),
+        ],
       ),
-      body: ListView.builder(
-        padding: const EdgeInsets.all(16),
-        itemCount: _gems.length,
-        itemBuilder: (context, index) {
-          final place = _gems[index];
-          return Card(
-            margin: const EdgeInsets.only(bottom: 12),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16)),
-            child: ListTile(
-              contentPadding: const EdgeInsets.all(16),
-              leading: CircleAvatar(
-                backgroundColor:
-                Theme.of(context).colorScheme.primaryContainer,
-                child: const Icon(Icons.diamond),
-              ),
-              title: Text(
-                place.name,
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-              subtitle: Column(
+
+      // ── Add Gem FAB ──
+      floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        icon: const Icon(Icons.add),
+        label: const Text('Add Gem',
+            style: TextStyle(fontWeight: FontWeight.w700)),
+        onPressed: () async {
+          final gem = await Navigator.push<Place>(
+            context,
+            MaterialPageRoute(builder: (_) => const AddGemScreen()),
+          );
+          if (gem != null) setState(() => _gems.add(gem));
+        },
+      ),
+    );
+  }
+}
+
+// ─────────────────────────────────────────────
+// Single gem card
+// ─────────────────────────────────────────────
+class _GemCard extends StatelessWidget {
+  final Place gem;
+  final VoidCallback onDelete;
+
+  const _GemCard({required this.gem, required this.onDelete});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onLongPress: () => _showDeleteDialog(context),
+      child: Container(
+        margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+        decoration: BoxDecoration(
+          color: const Color(0xFF181818),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: Colors.white.withOpacity(0.07)),
+        ),
+        clipBehavior: Clip.hardEdge,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Photo
+            SizedBox(
+              height: 160,
+              width: double.infinity,
+              child: _GemPhoto(gem: gem),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 4),
-                  Text(place.description),
-                  const SizedBox(height: 8),
+                  // Name + rating
                   Row(
                     children: [
-                      const Icon(Icons.star, color: Colors.amber, size: 16),
-                      Text(' ${place.rating}'),
+                      Expanded(
+                        child: Text(
+                          gem.name,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          const Icon(Icons.star_rounded,
+                              color: Color(0xFFFFD700), size: 16),
+                          const SizedBox(width: 3),
+                          Text(gem.rating.toStringAsFixed(1),
+                              style: const TextStyle(
+                                  color: Colors.white70,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 13)),
+                        ],
+                      ),
                     ],
                   ),
+
+                  const SizedBox(height: 6),
+
+                  // Category + address
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 3),
+                        decoration: BoxDecoration(
+                          color: Colors.purple.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Text(gem.category,
+                            style: const TextStyle(
+                                color: Colors.purpleAccent,
+                                fontSize: 11,
+                                fontWeight: FontWeight.w600)),
+                      ),
+                      if (gem.address != null) ...[
+                        const SizedBox(width: 8),
+                        const Icon(Icons.location_on_outlined,
+                            color: Colors.white30, size: 12),
+                        const SizedBox(width: 3),
+                        Expanded(
+                          child: Text(
+                            gem.address!,
+                            style: const TextStyle(
+                                color: Colors.white38, fontSize: 11),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+
+                  const SizedBox(height: 10),
+                  Text(
+                    gem.description,
+                    style: const TextStyle(
+                        color: Colors.white60,
+                        fontSize: 13,
+                        height: 1.5),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+
+                  if (gem.tags.isNotEmpty) ...[
+                    const SizedBox(height: 12),
+                    Wrap(
+                      spacing: 6,
+                      children: gem.tags
+                          .map((t) => Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.07),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Text(t,
+                            style: const TextStyle(
+                                color: Colors.white54,
+                                fontSize: 11)),
+                      ))
+                          .toList(),
+                    ),
+                  ],
                 ],
               ),
             ),
-          );
-        },
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showDeleteDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        backgroundColor: const Color(0xFF1E1E1E),
+        title: const Text('Remove gem?',
+            style: TextStyle(color: Colors.white)),
+        content: Text('Remove "${gem.name}" from your gems?',
+            style: const TextStyle(color: Colors.white60)),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancel',
+                  style: TextStyle(color: Colors.white54))),
+          TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                onDelete();
+              },
+              child: const Text('Remove',
+                  style: TextStyle(color: Colors.redAccent))),
+        ],
+      ),
+    );
+  }
+}
+
+class _GemPhoto extends StatelessWidget {
+  final Place gem;
+  const _GemPhoto({required this.gem});
+
+  @override
+  Widget build(BuildContext context) {
+    if (gem.imagePath != null) {
+      return Image.file(File(gem.imagePath!), fit: BoxFit.cover);
+    }
+    if (gem.imageUrl != null) {
+      return Image.network(
+        gem.imageUrl!,
+        fit: BoxFit.cover,
+        errorBuilder: (_, __, ___) => _GemPlaceholder(),
+      );
+    }
+    return _GemPlaceholder();
+  }
+}
+
+class _GemPlaceholder extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) => Container(
+    color: Colors.white.withOpacity(0.04),
+    child: const Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(Icons.diamond_outlined, color: Colors.white24, size: 36),
+        SizedBox(height: 6),
+        Text('No photo',
+            style: TextStyle(color: Colors.white24, fontSize: 12)),
+      ],
+    ),
+  );
+}
+
+// ─────────────────────────────────────────────
+// Add Gem Screen
+// ─────────────────────────────────────────────
+class AddGemScreen extends StatefulWidget {
+  const AddGemScreen({super.key});
+
+  @override
+  State<AddGemScreen> createState() => _AddGemScreenState();
+}
+
+class _AddGemScreenState extends State<AddGemScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final _nameCtrl = TextEditingController();
+  final _descCtrl = TextEditingController();
+  final _addressCtrl = TextEditingController();
+  final _tagCtrl = TextEditingController();
+
+  String _category = 'Nature';
+  double _rating = 4.0;
+  String? _imagePath;
+  final List<String> _tags = [];
+
+  final List<String> _categories = [
+    'Nature',
+    'Café',
+    'Museum',
+    'Viewpoint',
+    'Restaurant',
+    'Bar',
+    'Art',
+    'Other',
+  ];
+
+  @override
+  void dispose() {
+    _nameCtrl.dispose();
+    _descCtrl.dispose();
+    _addressCtrl.dispose();
+    _tagCtrl.dispose();
+    super.dispose();
+  }
+
+  Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    final result = await picker.pickImage(
+        source: ImageSource.gallery, imageQuality: 85, maxWidth: 1200);
+    if (result != null) setState(() => _imagePath = result.path);
+  }
+
+  void _save() {
+    if (_formKey.currentState!.validate()) {
+      final gem = Place(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        name: _nameCtrl.text.trim(),
+        description: _descCtrl.text.trim(),
+        latitude: 0,
+        longitude: 0,
+        category: _category,
+        rating: _rating,
+        imagePath: _imagePath,
+        address: _addressCtrl.text.trim().isEmpty
+            ? null
+            : _addressCtrl.text.trim(),
+        tags: List.from(_tags),
+      );
+      Navigator.pop(context, gem);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFF0D0D0D),
+      appBar: AppBar(
+        title: const Text('Add Hidden Gem',
+            style: TextStyle(
+                color: Colors.white, fontWeight: FontWeight.w700)),
+        backgroundColor: const Color(0xFF0D0D0D),
+        iconTheme: const IconThemeData(color: Colors.white),
+        actions: [
+          TextButton(
+            onPressed: _save,
+            child: const Text('Save',
+                style: TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.w700)),
+          ),
+        ],
+      ),
+      body: Form(
+        key: _formKey,
+        child: ListView(
+          padding: const EdgeInsets.all(20),
+          children: [
+            // ── Photo picker ──
+            GestureDetector(
+              onTap: _pickImage,
+              child: Container(
+                height: 180,
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.05),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                      color: Colors.white.withOpacity(0.1), width: 1.5),
+                ),
+                clipBehavior: Clip.hardEdge,
+                child: _imagePath != null
+                    ? Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    Image.file(File(_imagePath!),
+                        fit: BoxFit.cover),
+                    Positioned(
+                      bottom: 10,
+                      right: 10,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 6),
+                        decoration: BoxDecoration(
+                          color: Colors.black54,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: const Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.edit,
+                                color: Colors.white, size: 14),
+                            SizedBox(width: 4),
+                            Text('Change',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12)),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+                    : const Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.add_photo_alternate_outlined,
+                        color: Colors.white38, size: 40),
+                    SizedBox(height: 10),
+                    Text('Add Photo',
+                        style: TextStyle(
+                            color: Colors.white54,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500)),
+                  ],
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 24),
+
+            // Name
+            _DarkField(
+              controller: _nameCtrl,
+              label: 'Place Name',
+              hint: 'e.g. Secret Garden',
+              icon: Icons.diamond_outlined,
+              validator: (v) =>
+              v == null || v.isEmpty ? 'Enter a name' : null,
+            ),
+            const SizedBox(height: 16),
+
+            // Description
+            _DarkField(
+              controller: _descCtrl,
+              label: 'Description',
+              hint: 'What makes this place special?',
+              icon: Icons.description_outlined,
+              maxLines: 3,
+              validator: (v) =>
+              v == null || v.isEmpty ? 'Enter a description' : null,
+            ),
+            const SizedBox(height: 16),
+
+            // Address
+            _DarkField(
+              controller: _addressCtrl,
+              label: 'Address (optional)',
+              hint: 'Street, City',
+              icon: Icons.location_on_outlined,
+            ),
+
+            const SizedBox(height: 24),
+
+            // Category dropdown
+            const Text('Category',
+                style: TextStyle(
+                    color: Colors.white60,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500)),
+            const SizedBox(height: 10),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.06),
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(
+                    color: Colors.white.withOpacity(0.1)),
+              ),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<String>(
+                  value: _category,
+                  dropdownColor: const Color(0xFF1E1E1E),
+                  style: const TextStyle(color: Colors.white),
+                  isExpanded: true,
+                  items: _categories
+                      .map((c) => DropdownMenuItem(
+                    value: c,
+                    child: Text(c),
+                  ))
+                      .toList(),
+                  onChanged: (v) =>
+                      setState(() => _category = v ?? _category),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 24),
+
+            // Rating slider
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Rating',
+                    style: TextStyle(
+                        color: Colors.white60,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500)),
+                Row(
+                  children: [
+                    const Icon(Icons.star_rounded,
+                        color: Color(0xFFFFD700), size: 16),
+                    const SizedBox(width: 4),
+                    Text(_rating.toStringAsFixed(1),
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700)),
+                  ],
+                ),
+              ],
+            ),
+            Slider(
+              value: _rating,
+              min: 1,
+              max: 5,
+              divisions: 8,
+              activeColor: Colors.white,
+              inactiveColor: Colors.white24,
+              onChanged: (v) => setState(() => _rating = v),
+            ),
+
+            const SizedBox(height: 16),
+
+            // Tags
+            const Text('Tags',
+                style: TextStyle(
+                    color: Colors.white60,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500)),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                Expanded(
+                  child: _DarkField(
+                    controller: _tagCtrl,
+                    label: '',
+                    hint: 'Add a tag...',
+                    icon: Icons.label_outline,
+                    onSubmitted: (_) {
+                      final t = _tagCtrl.text.trim();
+                      if (t.isNotEmpty) {
+                        setState(() {
+                          _tags.add(t);
+                          _tagCtrl.clear();
+                        });
+                      }
+                    },
+                  ),
+                ),
+                const SizedBox(width: 8),
+                GestureDetector(
+                  onTap: () {
+                    final t = _tagCtrl.text.trim();
+                    if (t.isNotEmpty) {
+                      setState(() {
+                        _tags.add(t);
+                        _tagCtrl.clear();
+                      });
+                    }
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(14),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    child: const Icon(Icons.add,
+                        color: Colors.black, size: 20),
+                  ),
+                ),
+              ],
+            ),
+            if (_tags.isNotEmpty) ...[
+              const SizedBox(height: 12),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: _tags.asMap().entries.map((e) {
+                  return GestureDetector(
+                    onTap: () =>
+                        setState(() => _tags.removeAt(e.key)),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: Colors.purple.withOpacity(0.15),
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                            color: Colors.purpleAccent.withOpacity(0.3)),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(e.value,
+                              style: const TextStyle(
+                                  color: Colors.purpleAccent,
+                                  fontSize: 12)),
+                          const SizedBox(width: 4),
+                          const Icon(Icons.close,
+                              color: Colors.purpleAccent, size: 13),
+                        ],
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ],
+
+            const SizedBox(height: 32),
+
+            SizedBox(
+              height: 54,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.black,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16)),
+                ),
+                onPressed: _save,
+                child: const Text('Save Gem',
+                    style: TextStyle(
+                        fontWeight: FontWeight.w800, fontSize: 16)),
+              ),
+            ),
+            const SizedBox(height: 40),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _DarkField extends StatelessWidget {
+  final TextEditingController controller;
+  final String label;
+  final String hint;
+  final IconData icon;
+  final String? Function(String?)? validator;
+  final int maxLines;
+  final void Function(String)? onSubmitted;
+
+  const _DarkField({
+    required this.controller,
+    required this.label,
+    required this.hint,
+    required this.icon,
+    this.validator,
+    this.maxLines = 1,
+    this.onSubmitted,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: controller,
+      validator: validator,
+      maxLines: maxLines,
+      onFieldSubmitted: onSubmitted,
+      style: const TextStyle(color: Colors.white, fontSize: 15),
+      decoration: InputDecoration(
+        labelText: label.isEmpty ? null : label,
+        hintText: hint,
+        labelStyle: const TextStyle(color: Colors.white54),
+        hintStyle: const TextStyle(color: Colors.white30),
+        prefixIcon: Icon(icon, color: Colors.white38, size: 20),
+        filled: true,
+        fillColor: Colors.white.withOpacity(0.06),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide:
+          BorderSide(color: Colors.white.withOpacity(0.1)),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide:
+          BorderSide(color: Colors.white.withOpacity(0.1)),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide:
+          const BorderSide(color: Colors.white54, width: 1.5),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: const BorderSide(color: Colors.redAccent),
+        ),
       ),
     );
   }

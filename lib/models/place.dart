@@ -4,9 +4,12 @@ class Place {
   final String description;
   final double latitude;
   final double longitude;
-  final String category; // 'hidden_gem', 'restaurant', 'museum'
+  final String category;
   final double rating;
-  final String imageUrl;
+  final String? imagePath; // local image chosen by user
+  final String? imageUrl;
+  final String? address;
+  final List<String> tags;
 
   Place({
     required this.id,
@@ -16,6 +19,9 @@ class Place {
     required this.longitude,
     required this.category,
     this.rating = 0.0,
-    this.imageUrl = '',
+    this.imagePath,
+    this.imageUrl,
+    this.address,
+    this.tags = const [],
   });
 }
