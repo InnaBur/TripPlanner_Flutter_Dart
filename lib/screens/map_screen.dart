@@ -7,7 +7,7 @@ class MapScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Карта'),
+        title: const Text('<Map>'),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: const Center(
@@ -17,12 +17,12 @@ class MapScreen extends StatelessWidget {
             Icon(Icons.map, size: 64, color: Colors.grey),
             SizedBox(height: 16),
             Text(
-              'Тут буде інтерактивна карта',
+              'Here will be map',
               style: TextStyle(color: Colors.grey, fontSize: 16),
             ),
             SizedBox(height: 8),
             Text(
-              'Потрібен Google Maps API ключ',
+              'Google Maps API Key required',
               style: TextStyle(color: Colors.grey, fontSize: 13),
             ),
           ],

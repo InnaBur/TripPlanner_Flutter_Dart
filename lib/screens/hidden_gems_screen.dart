@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../models/place.dart';
+import 'package:flutter/foundation.dart';
 
 class HiddenGemsScreen extends StatefulWidget {
   const HiddenGemsScreen({super.key});
@@ -375,7 +376,21 @@ class _GemPhoto extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (gem.imagePath != null) {
-      return Image.file(File(gem.imagePath!), fit: BoxFit.cover);
+      if (gem.imagePath!.startsWith('assets/')) {
+        return Image.asset(
+          gem.imagePath!,
+          fit: BoxFit.cover,
+          width: double.infinity,
+          errorBuilder: (_, __, ___) => _GemPlaceholder(),
+        );
+      }
+      if (!kIsWeb) {
+        return Image.file(
+          File(gem.imagePath!),
+          fit: BoxFit.cover,
+          width: double.infinity,
+        );
+      }
     }
     if (gem.imageUrl != null) {
       return Image.network(
@@ -387,6 +402,18 @@ class _GemPhoto extends StatelessWidget {
     return _GemPlaceholder();
   }
 }
+//       return Image.file(File(gem.imagePath!), fit: BoxFit.cover);
+//     }
+//     if (gem.imageUrl != null) {
+//       return Image.network(
+//         gem.imageUrl!,
+//         fit: BoxFit.cover,
+//         errorBuilder: (_, __, ___) => _GemPlaceholder(),
+//       );
+//     }
+//     return _GemPlaceholder();
+//   }
+// }
 
 class _GemPlaceholder extends StatelessWidget {
   @override
@@ -513,8 +540,11 @@ class _AddGemScreenState extends State<AddGemScreen> {
                     ? Stack(
                   fit: StackFit.expand,
                   children: [
-                    Image.file(File(_imagePath!),
-                        fit: BoxFit.cover),
+                    _imagePath!.startsWith('assets/')
+                        ? Image.asset(_imagePath!, fit: BoxFit.cover)
+                        : kIsWeb
+                        ? Image.network(_imagePath!, fit: BoxFit.cover)
+                        : Image.file(File(_imagePath!), fit: BoxFit.cover),
                     Positioned(
                       bottom: 10,
                       right: 10,

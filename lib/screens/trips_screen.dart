@@ -7,7 +7,7 @@ class TripsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Мої подорожі'),
+        title: const Text('Trips'),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: const Center(
@@ -17,7 +17,7 @@ class TripsScreen extends StatelessWidget {
             Icon(Icons.luggage, size: 64, color: Colors.grey),
             SizedBox(height: 16),
             Text(
-              'Тут будуть всі твої подорожі',
+              'Here will be all of your trips',
               style: TextStyle(color: Colors.grey, fontSize: 16),
             ),
           ],
