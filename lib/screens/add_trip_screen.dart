@@ -19,6 +19,7 @@ class _AddTripScreenState extends State<AddTripScreen> {
   final _notesCtrl = TextEditingController();
   final _activityCtrl = TextEditingController();
 
+
   DateTime _startDate = DateTime.now().add(const Duration(days: 7));
   DateTime _endDate = DateTime.now().add(const Duration(days: 14));
   String? _imagePath;
