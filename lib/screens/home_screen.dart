@@ -43,15 +43,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // Background mosaic photos (travel themed from Unsplash)
   final List<String> _bgPhotos = [
-    'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=400',
-    'https://images.unsplash.com/photo-1530521954074-e64f6810b32d?w=400',
-    'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=400',
-    'https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=400',
-    'https://images.unsplash.com/photo-1504609813442-a8924e83f76e?w=400',
-    'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=400',
-    'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400',
-    'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=400',
-    'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400',
+    'assets/images/bg.jpg',
+    'assets/images/img5.jpg',
+    'assets/images/img6.jpg',
+    'assets/images/img7.jpg',
+    'assets/images/img8.jpg',
+    'assets/images/img9.jpg',
+    'assets/images/img10.jpg',
+    'assets/images/img11.jpg',
+    'assets/images/img12.jpg',
   ];
 
   @override
