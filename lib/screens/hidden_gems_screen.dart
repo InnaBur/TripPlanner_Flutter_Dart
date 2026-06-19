@@ -14,71 +14,53 @@ class _HiddenGemsScreenState extends State<HiddenGemsScreen> {
   final List<Place> _gems = [
     Place(
       id: '1',
-      name: 'Secret Garden in Graz',
+      name: 'Palazzo Contarini del Bovolo',
       description:
-      'A tiny hidden courtyard in the old town, known only to locals. Perfect for a quiet coffee break.',
-      latitude: 47.0707,
-      longitude: 15.4395,
-      category: 'Nature',
-      rating: 4.8,
-      imageUrl:
-      'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600',
-      address: 'Herrengasse, Graz',
-      tags: ['Quiet', 'Nature', 'Local'],
+      'A stunning hidden Venetian palace famous for its spiral external staircase. Most tourists walk right past it without noticing the entrance in the tiny alley',
+      latitude: 45.4373,
+      longitude: 12.3346,
+      category: 'Architecture',
+      rating: 4.9,
+      imagePath: 'assets/gems/img26.jpg',
+      address: 'Calle Contarini del Bovolo, Venice, Italy',
+      tags: ['Hidden', 'Architecture', 'Photo Spot'],
     ),
     Place(
       id: '2',
-      name: 'Old Café 1890',
+      name: 'Frohnleiten',
       description:
-      'The oldest café in town with original Art Nouveau interior. Their coffee ritual is legendary.',
-      latitude: 47.0710,
-      longitude: 15.4400,
-      category: 'Café',
+      'A charming small town along the Mur river, surrounded by green hills. Perfect for a relaxed walk away from the tourist crowds.',
+      latitude: 47.2667,
+      longitude: 15.3167,
+      category: 'Nature',
       rating: 4.6,
-      imageUrl:
-      'https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=600',
-      address: 'Sporgasse 12, Graz',
-      tags: ['Historic', 'Coffee', 'Cozy'],
+      imagePath: 'assets/gems/img24.jpg',
+      address: 'Frohnleiten, Austria',
+      tags: ['Quiet', 'Nature', 'Riverside'],
     ),
     Place(
       id: '3',
-      name: 'Underground Passage Museum',
+      name: 'Leopoldsteinersee',
       description:
-      'A forgotten underground passage from WWII turned into a small atmospheric museum.',
-      latitude: 47.0720,
-      longitude: 15.4410,
-      category: 'Museum',
-      rating: 4.9,
-      imageUrl:
-      'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600',
-      address: 'Schlossberg, Graz',
-      tags: ['History', 'Unique', 'Indoors'],
-    ),
-    Place(
-      id: '4',
-      name: 'Rooftop Sunset Spot',
-      description:
-      'A public rooftop terrace almost no tourist knows about. Best sunset view in the city.',
-      latitude: 47.0715,
-      longitude: 15.4420,
-      category: 'Viewpoint',
+      'A crystal-clear alpine lake surrounded by mountains near Eisenerz. One of the most beautiful and peaceful lakes in Styria.',
+      latitude: 47.5333,
+      longitude: 14.9667,
+      category: 'Nature',
       rating: 5.0,
-      imageUrl:
-      'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600',
-      address: 'Uhrturm area, Graz',
-      tags: ['Sunset', 'Views', 'Romantic'],
+      imagePath: 'assets/gems/img22.jpg',
+      address: 'Leopoldsteinersee, Eisenerz, Austria',
+      tags: ['Lake', 'Mountains', 'Hiking'],
     ),
   ];
 
   String _selectedFilter = 'All';
   final List<String> _filters = [
     'All',
+    'Architecture',
     'Nature',
-    'Café',
-    'Museum',
-    'Viewpoint',
     'Other'
   ];
+
 
   List<Place> get _filtered => _selectedFilter == 'All'
       ? _gems
