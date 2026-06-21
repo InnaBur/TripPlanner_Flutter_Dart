@@ -57,14 +57,16 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0D0D0D),
+      // GEÄNDERT: Hintergrund von Dunkel auf helles Grau/Slate gewechselt
+      backgroundColor: const Color(0xFFF8FAFC),
       body: CustomScrollView(
         slivers: [
           // ── Hero header with photo mosaic background ──
           SliverAppBar(
             expandedHeight: 380,
             pinned: true,
-            backgroundColor: const Color(0xFF0D0D0D),
+            // GEÄNDERT: Hintergrund an App-Hintergrund angepasst
+            backgroundColor: const Color(0xFFF8FAFC),
             flexibleSpace: FlexibleSpaceBar(
               collapseMode: CollapseMode.parallax,
               background: _HeroMosaic(photos: _bgPhotos),
@@ -83,7 +85,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.w800,
-                      color: Colors.white,
+                      // GEÄNDERT: Textfarbe auf dunkles Slate für lesbaren Kontrast
+                      color: const Color(0xFF1E293B),
                       letterSpacing: -0.5,
                     ),
                   ),
@@ -92,7 +95,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     '${_trips.length} trips planned · ${_trips.where((t) => t.isUpcoming).length} upcoming',
                     style: const TextStyle(
                       fontSize: 14,
-                      color: Colors.white54,
+                      // GEÄNDERT: Subtext lesbar abgedunkelt
+                      color: Color(0xFF64748B),
                     ),
                   ),
                 ],
@@ -140,14 +144,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
-                      color: Colors.white,
+                      // GEÄNDERT: Überschrift dunkel gefärbt
+                      color: Color(0xFF1E293B),
                     ),
                   ),
                   TextButton(
                     onPressed: () {},
                     child: const Text(
                       'See all',
-                      style: TextStyle(color: Colors.white54, fontSize: 13),
+                      // GEÄNDERT: Textbutton-Farbe angepasst
+                      style: TextStyle(color: Color(0xFF64748B), fontSize: 13),
                     ),
                   ),
                 ],
@@ -196,31 +202,28 @@ class _HeroMosaic extends StatelessWidget {
             crossAxisCount: 3,
             crossAxisSpacing: 2,
             mainAxisSpacing: 2,
-            childAspectRatio: 0.75,
+            // GEÄNDERT: Von 0.75 auf 1.15 gestellt, damit alle 9 Bilder perfekt hineinpassen
+            childAspectRatio: 1.42,
           ),
           itemCount: photos.length,
-          itemBuilder: (_, i) => Image.network(
+          itemBuilder: (_, i) => Image.asset(
             photos[i],
             fit: BoxFit.cover,
-            errorBuilder: (_, __, ___) => Container(
-              color: Colors.white10,
-              child: const Icon(Icons.photo, color: Colors.white24),
-            ),
           ),
         ),
 
-        // Dark gradient overlay so text is readable
+        // Helles Gradient-Overlay für optimale Lesbarkeit im Light Mode
         Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                Colors.black.withOpacity(0.3),
-                Colors.black.withOpacity(0.5),
-                const Color(0xFF0D0D0D),
+                Colors.transparent,
+                Colors.white.withOpacity(0.15),
+                const Color(0xFFF8FAFC),
               ],
-              stops: const [0.0, 0.6, 1.0],
+              stops: const [0.0, 0.7, 1.0],
             ),
           ),
         ),
@@ -230,34 +233,39 @@ class _HeroMosaic extends StatelessWidget {
           top: 0,
           left: 0,
           right: 0,
-          bottom: 60,
+          bottom: 40,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.flight_takeoff, color: Colors.white, size: 40),
+              // GEÄNDERT: Icon-Farbe auf Dunkelgrau gesetzt
+              const Icon(Icons.flight_takeoff, color: Color(0xFF1E293B), size: 40),
               const SizedBox(height: 8),
               Text(
                 'TripPlanner',
                 style: TextStyle(
-                  color: Colors.white,
+                  // GEÄNDERT: Textfarbe auf edles, dunkles Slate umgestellt
+                  color: const Color(0xFFFFFFFF),
                   fontSize: 28,
                   fontWeight: FontWeight.w900,
                   letterSpacing: 1.5,
                   shadows: [
                     Shadow(
-                      color: Colors.black54,
-                      blurRadius: 8,
+                      // GEÄNDERT: Weicher, weißer Schatten für optimale Lesbarkeit auf Bildern
+                      color: Colors.white.withOpacity(0.8),
+                      blurRadius: 10,
                     ),
                   ],
                 ),
               ),
               const SizedBox(height: 4),
               const Text(
-                'Your world, planned.',
+                'Your world, planned',
                 style: TextStyle(
-                  color: Colors.white70,
+                  // GEÄNDERT: Slogan-Farbe lesbar angepasst
+                  color: Color(0xFFFFFFFF),
                   fontSize: 14,
                   letterSpacing: 0.5,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ],
@@ -288,25 +296,37 @@ class _StatPill extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 14),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.06),
+          // GEÄNDERT: Weißer Kachel-Hintergrund für den hellen "Card-Look"
+          color: Colors.white,
           borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: Colors.white.withOpacity(0.08)),
+          // GEÄNDERT: Subtiler Rahmen und cleaner Schatten-Effekt
+          border: Border.all(color: const Color(0xFFE2E8F0)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.03),
+              blurRadius: 8,
+              offset: const Offset(0, 4),
+            ),
+          ],
         ),
         child: Row(
           children: [
-            Icon(icon, color: Colors.white60, size: 16),
+            // GEÄNDERT: Icon-Farbe abgedunkelt
+            Icon(icon, color: const Color(0xFF64748B), size: 16),
             const SizedBox(width: 6),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(value,
                     style: const TextStyle(
-                        color: Colors.white,
+                      // GEÄNDERT: Zahlen-Farbe abgedunkelt
+                        color: Color(0xFF1E293B),
                         fontWeight: FontWeight.w700,
                         fontSize: 15)),
                 Text(label,
                     style: const TextStyle(
-                        color: Colors.white38, fontSize: 11)),
+                      // GEÄNDERT: Label-Farbton angepasst
+                        color: Color(0xFF94A3B8), fontSize: 11)),
               ],
             ),
           ],
@@ -326,8 +346,9 @@ class _AddTripFab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton.extended(
-      backgroundColor: Colors.white,
-      foregroundColor: Colors.black,
+      // GEÄNDERT: Invertierter, dunkler Button-Stil als eleganter Akzent
+      backgroundColor: const Color(0xFF1E293B),
+      foregroundColor: Colors.white,
       onPressed: () async {
         final trip = await Navigator.push<Trip>(
           context,

@@ -52,10 +52,10 @@ class _AddTripScreenState extends State<AddTripScreen> {
       lastDate: DateTime.now().add(const Duration(days: 365 * 5)),
       builder: (context, child) => Theme(
         data: Theme.of(context).copyWith(
-          colorScheme: const ColorScheme.dark(
-            primary: Colors.white,
-            onPrimary: Colors.black,
-            surface: Color(0xFF1E1E1E),
+          colorScheme: const ColorScheme.light(
+            primary: Color(0xFF1E293B), // Slate-Dunkelgrau für ausgewählte Tage
+            onPrimary: Colors.white,
+            surface: Colors.white, // Weißer Hintergrund für den Kalender
           ),
         ),
         child: child!,
@@ -104,19 +104,20 @@ class _AddTripScreenState extends State<AddTripScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0D0D0D),
+      backgroundColor: const Color(0xFFF8FAFC),
       appBar: AppBar(
         title: const Text('New Trip',
             style: TextStyle(
-                color: Colors.white, fontWeight: FontWeight.w700)),
-        backgroundColor: const Color(0xFF0D0D0D),
-        iconTheme: const IconThemeData(color: Colors.white),
+                color: Color(0xFF1E293B), fontWeight: FontWeight.w700)), // Dunkler Text
+        backgroundColor: const Color(0xFFF8FAFC), // Gleicher heller Hintergrund wie das Scaffold
+        elevation: 0, // Entfernt harten Schatten für einen cleanen Look
+        iconTheme: const IconThemeData(color: Color(0xFF1E293B)), // Dunkler Zurück-Pfeil
         actions: [
           TextButton(
             onPressed: _save,
             child: const Text('Save',
                 style: TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.w700)),
+                    color: Color(0xFF1E293B), fontWeight: FontWeight.w700)),
           ),
         ],
       ),
@@ -131,10 +132,10 @@ class _AddTripScreenState extends State<AddTripScreen> {
               child: Container(
                 height: 200,
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.05),
+                  color: Colors.white, // Weißer Hintergrund
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
-                      color: Colors.white.withOpacity(0.1), width: 1.5),
+                      color: const Color(0xFFE2E8F0), width: 1.5),
                 ),
                 clipBehavior: Clip.hardEdge,
                 child: _imagePath != null
@@ -215,7 +216,7 @@ class _AddTripScreenState extends State<AddTripScreen> {
             // ── Date pickers ──
             const Text('Travel Dates',
                 style: TextStyle(
-                    color: Colors.white60,
+                    color: const Color(0xFF475569),
                     fontSize: 13,
                     fontWeight: FontWeight.w500)),
             const SizedBox(height: 10),
@@ -248,7 +249,7 @@ class _AddTripScreenState extends State<AddTripScreen> {
             // ── Activities ──
             const Text('Activities',
                 style: TextStyle(
-                    color: Colors.white60,
+                    color: const Color(0xFF475569),
                     fontSize: 13,
                     fontWeight: FontWeight.w500)),
             const SizedBox(height: 10),
@@ -269,11 +270,11 @@ class _AddTripScreenState extends State<AddTripScreen> {
                   child: Container(
                     padding: const EdgeInsets.all(14),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                        color: const Color(0xFF1E293B),
                       borderRadius: BorderRadius.circular(14),
                     ),
                     child: const Icon(Icons.add,
-                        color: Colors.black, size: 20),
+                        color: Colors.white, size: 20),
                   ),
                 ),
               ],
@@ -291,7 +292,7 @@ class _AddTripScreenState extends State<AddTripScreen> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 12, vertical: 6),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.1),
+                        color: const Color(0xFFE2E8F0),
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
                             color: Colors.white.withOpacity(0.15)),
@@ -331,8 +332,8 @@ class _AddTripScreenState extends State<AddTripScreen> {
               height: 54,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  foregroundColor: Colors.black,
+                  backgroundColor: const Color(0xFF1E293B), // Dunkler, moderner Button
+                  foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
@@ -375,7 +376,6 @@ class _DarkTextField extends StatelessWidget {
     this.maxLines = 1,
     this.onSubmitted,
   });
-
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -383,27 +383,29 @@ class _DarkTextField extends StatelessWidget {
       validator: validator,
       maxLines: maxLines,
       onFieldSubmitted: onSubmitted,
-      style: const TextStyle(color: Colors.white, fontSize: 15),
+      // GEÄNDERT: Eingabetext ist jetzt dunkelgrau
+      style: const TextStyle(color: Color(0xFF1E293B), fontSize: 15),
       decoration: InputDecoration(
         labelText: label.isEmpty ? null : label,
         hintText: hint,
-        labelStyle: const TextStyle(color: Colors.white54),
-        hintStyle: const TextStyle(color: Colors.white30),
-        prefixIcon: Icon(icon, color: Colors.white38, size: 20),
+        // GEÄNDERT: Label- und Hint-Farben angepasst
+        labelStyle: const TextStyle(color: Color(0xFF64748B)),
+        hintStyle: const TextStyle(color: Color(0xFF94A3B8)),
+        prefixIcon: Icon(icon, color: const Color(0xFF64748B), size: 20),
         filled: true,
-        fillColor: Colors.white.withOpacity(0.06),
+        // GEÄNDERT: Hintergrund der Felder ist reines Weiß
+        fillColor: Colors.white,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(color: Colors.white.withOpacity(0.1)),
+          borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(color: Colors.white.withOpacity(0.1)),
+          borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide:
-          const BorderSide(color: Colors.white54, width: 1.5),
+          borderSide: const BorderSide(color: Color(0xFF1E293B), width: 1.5),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
@@ -427,7 +429,6 @@ class _DateButton extends StatelessWidget {
     required this.date,
     required this.onTap,
   });
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -435,22 +436,21 @@ class _DateButton extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.06),
+          color: Colors.white, // Weißer Hintergrund
           borderRadius: BorderRadius.circular(14),
-          border:
-          Border.all(color: Colors.white.withOpacity(0.1)),
+          border: Border.all(color: const Color(0xFFE2E8F0)), // Heller Rahmen
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(label,
-                style: const TextStyle(
-                    color: Colors.white38, fontSize: 11)),
+            // GEÄNDERT: Label-Farbe dunkler
+            Text(label, style: const TextStyle(color: Color(0xFF64748B), fontSize: 11)),
             const SizedBox(height: 4),
+            // GEÄNDERT: Datumstext dunkelgrau
             Text(
               '${date.day.toString().padLeft(2, '0')}.${date.month.toString().padLeft(2, '0')}.${date.year}',
               style: const TextStyle(
-                  color: Colors.white,
+                  color: Color(0xFF1E293B),
                   fontWeight: FontWeight.w600,
                   fontSize: 14),
             ),

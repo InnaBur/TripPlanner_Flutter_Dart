@@ -82,7 +82,7 @@ class _HiddenGemsScreenState extends State<HiddenGemsScreen> {
               titlePadding:
               const EdgeInsets.fromLTRB(20, 0, 0, 16),
               title: const Text(
-                'Hidden Gems 💎',
+                'Hidden Gems',
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w800,
