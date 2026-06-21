@@ -6,24 +6,40 @@ class MapScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFF0F172A),
       appBar: AppBar(
-        title: const Text('<Map>'),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: const Text(
+          'Map View',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+        ),
+        backgroundColor: const Color(0xFF0F172A),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.map, size: 64, color: Colors.grey),
+            Icon(
+              Icons.map_outlined,
+              size: 64,
+              color: Color(0xFF38BDF8),
+            ),
             SizedBox(height: 16),
             Text(
-              'Here will be map',
-              style: TextStyle(color: Colors.grey, fontSize: 16),
+              'Interactive Map',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+              ),
             ),
-            SizedBox(height: 8),
+            SizedBox(height: 6),
             Text(
-              'Google Maps API Key required',
-              style: TextStyle(color: Colors.grey, fontSize: 13),
+              'Google Maps API integration coming soon.',
+              style: TextStyle(
+                color: Color(0xFF94A3B8),
+                fontSize: 14,
+              ),
             ),
           ],
         ),

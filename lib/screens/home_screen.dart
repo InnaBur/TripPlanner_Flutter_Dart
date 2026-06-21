@@ -57,14 +57,14 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0D0D0D),
+      backgroundColor: const Color(0xFF0F172A),
       body: CustomScrollView(
         slivers: [
           // ── Hero header with photo mosaic background ──
           SliverAppBar(
             expandedHeight: 380,
             pinned: true,
-            backgroundColor: const Color(0xFF0D0D0D),
+            backgroundColor: const Color(0xFF0F172A),
             flexibleSpace: FlexibleSpaceBar(
               collapseMode: CollapseMode.parallax,
               background: _HeroMosaic(photos: _bgPhotos),
@@ -78,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Where to next?',
                     style: TextStyle(
                       fontSize: 32,
@@ -92,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     '${_trips.length} trips planned · ${_trips.where((t) => t.isUpcoming).length} upcoming',
                     style: const TextStyle(
                       fontSize: 14,
-                      color: Colors.white54,
+                      color: Color(0xFF94A3B8),
                     ),
                   ),
                 ],
@@ -147,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     onPressed: () {},
                     child: const Text(
                       'See all',
-                      style: TextStyle(color: Colors.white54, fontSize: 13),
+                      style: TextStyle(color: Color(0xFF38BDF8), fontSize: 13),
                     ),
                   ),
                 ],
@@ -196,29 +196,24 @@ class _HeroMosaic extends StatelessWidget {
             crossAxisCount: 3,
             crossAxisSpacing: 2,
             mainAxisSpacing: 2,
-            childAspectRatio: 0.75,
+            childAspectRatio: 1.42,
           ),
           itemCount: photos.length,
-          itemBuilder: (_, i) => Image.network(
+          itemBuilder: (_, i) => Image.asset(
             photos[i],
             fit: BoxFit.cover,
-            errorBuilder: (_, __, ___) => Container(
-              color: Colors.white10,
-              child: const Icon(Icons.photo, color: Colors.white24),
-            ),
           ),
         ),
 
-        // Dark gradient overlay so text is readable
         Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                Colors.black.withOpacity(0.3),
-                Colors.black.withOpacity(0.5),
-                const Color(0xFF0D0D0D),
+                Colors.transparent,
+                const Color(0xFF0F172A).withOpacity(0.2),
+                const Color(0xFF0F172A),
               ],
               stops: const [0.0, 0.6, 1.0],
             ),
@@ -230,32 +225,26 @@ class _HeroMosaic extends StatelessWidget {
           top: 0,
           left: 0,
           right: 0,
-          bottom: 60,
+          bottom: 40,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Icon(Icons.flight_takeoff, color: Colors.white, size: 40),
               const SizedBox(height: 8),
-              Text(
+              const Text(
                 'TripPlanner',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 28,
                   fontWeight: FontWeight.w900,
                   letterSpacing: 1.5,
-                  shadows: [
-                    Shadow(
-                      color: Colors.black54,
-                      blurRadius: 8,
-                    ),
-                  ],
                 ),
               ),
               const SizedBox(height: 4),
               const Text(
                 'Your world, planned.',
                 style: TextStyle(
-                  color: Colors.white70,
+                  color: Color(0xFF94A3B8),
                   fontSize: 14,
                   letterSpacing: 0.5,
                 ),
@@ -288,13 +277,13 @@ class _StatPill extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 14),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.06),
+          color: Colors.white.withOpacity(0.05),
           borderRadius: BorderRadius.circular(14),
           border: Border.all(color: Colors.white.withOpacity(0.08)),
         ),
         child: Row(
           children: [
-            Icon(icon, color: Colors.white60, size: 16),
+            Icon(icon, color: const Color(0xFF38BDF8), size: 16),
             const SizedBox(width: 6),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -306,7 +295,7 @@ class _StatPill extends StatelessWidget {
                         fontSize: 15)),
                 Text(label,
                     style: const TextStyle(
-                        color: Colors.white38, fontSize: 11)),
+                        color: Color(0xFF94A3B8), fontSize: 11)),
               ],
             ),
           ],
@@ -326,8 +315,8 @@ class _AddTripFab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton.extended(
-      backgroundColor: Colors.white,
-      foregroundColor: Colors.black,
+      backgroundColor: const Color(0xFF38BDF8),
+      foregroundColor: const Color(0xFF0F172A),
       onPressed: () async {
         final trip = await Navigator.push<Trip>(
           context,

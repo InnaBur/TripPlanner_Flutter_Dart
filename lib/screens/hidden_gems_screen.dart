@@ -62,7 +62,6 @@ class _HiddenGemsScreenState extends State<HiddenGemsScreen> {
     'Other'
   ];
 
-
   List<Place> get _filtered => _selectedFilter == 'All'
       ? _gems
       : _gems.where((p) => p.category == _selectedFilter).toList();
@@ -70,19 +69,17 @@ class _HiddenGemsScreenState extends State<HiddenGemsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0D0D0D),
+      backgroundColor: const Color(0xFF0F172A),
       body: CustomScrollView(
         slivers: [
-          // ── Header ──
           SliverAppBar(
             pinned: true,
             expandedHeight: 140,
-            backgroundColor: const Color(0xFF0D0D0D),
+            backgroundColor: const Color(0xFF0F172A),
             flexibleSpace: FlexibleSpaceBar(
-              titlePadding:
-              const EdgeInsets.fromLTRB(20, 0, 0, 16),
+              titlePadding: const EdgeInsets.fromLTRB(20, 0, 0, 16),
               title: const Text(
-                'Hidden Gems 💎',
+                'Hidden Gems',
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w800,
@@ -94,7 +91,7 @@ class _HiddenGemsScreenState extends State<HiddenGemsScreen> {
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
-                    colors: [Color(0xFF1A0A2E), Color(0xFF0D0D0D)],
+                    colors: [Color(0xFF1E1E38), const Color(0xFF0F172A)],
                   ),
                 ),
                 child: const Center(
@@ -105,14 +102,12 @@ class _HiddenGemsScreenState extends State<HiddenGemsScreen> {
             ),
           ),
 
-          // ── Filter chips ──
           SliverToBoxAdapter(
             child: SizedBox(
               height: 50,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 itemCount: _filters.length,
                 itemBuilder: (_, i) {
                   final f = _filters[i];
@@ -122,25 +117,24 @@ class _HiddenGemsScreenState extends State<HiddenGemsScreen> {
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 200),
                       margin: const EdgeInsets.only(right: 8),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 4),
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                       decoration: BoxDecoration(
                         color: selected
-                            ? Colors.white
-                            : Colors.white.withOpacity(0.07),
+                            ? const Color(0xFF38BDF8)
+                            : Colors.white.withOpacity(0.05),
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
                           color: selected
-                              ? Colors.white
-                              : Colors.white.withOpacity(0.12),
+                              ? const Color(0xFF38BDF8)
+                              : Colors.white.withOpacity(0.1),
                         ),
                       ),
                       child: Text(
                         f,
                         style: TextStyle(
                           color: selected
-                              ? Colors.black
-                              : Colors.white60,
+                              ? const Color(0xFF0F172A)
+                              : const Color(0xFF94A3B8),
                           fontWeight: selected
                               ? FontWeight.w700
                               : FontWeight.normal,
@@ -154,19 +148,17 @@ class _HiddenGemsScreenState extends State<HiddenGemsScreen> {
             ),
           ),
 
-          // ── Gem count ──
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(20, 8, 20, 4),
               child: Text(
                 '${_filtered.length} place${_filtered.length == 1 ? '' : 's'} found',
                 style: const TextStyle(
-                    color: Colors.white38, fontSize: 12),
+                    color: Color(0xFF64748B), fontSize: 12),
               ),
             ),
           ),
 
-          // ── Gem cards ──
           SliverList(
             delegate: SliverChildBuilderDelegate(
                   (context, index) => _GemCard(
@@ -184,10 +176,9 @@ class _HiddenGemsScreenState extends State<HiddenGemsScreen> {
         ],
       ),
 
-      // ── Add Gem FAB ──
       floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
+        backgroundColor: const Color(0xFF38BDF8),
+        foregroundColor: const Color(0xFF0F172A),
         icon: const Icon(Icons.add),
         label: const Text('Add Gem',
             style: TextStyle(fontWeight: FontWeight.w700)),
@@ -203,9 +194,6 @@ class _HiddenGemsScreenState extends State<HiddenGemsScreen> {
   }
 }
 
-// ─────────────────────────────────────────────
-// Single gem card
-// ─────────────────────────────────────────────
 class _GemCard extends StatelessWidget {
   final Place gem;
   final VoidCallback onDelete;
@@ -219,15 +207,14 @@ class _GemCard extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
         decoration: BoxDecoration(
-          color: const Color(0xFF181818),
+          color: const Color(0xFF1E293B).withOpacity(0.6),
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Colors.white.withOpacity(0.07)),
+          border: Border.all(color: Colors.white.withOpacity(0.06)),
         ),
         clipBehavior: Clip.hardEdge,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Photo
             SizedBox(
               height: 160,
               width: double.infinity,
@@ -239,7 +226,6 @@ class _GemCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Name + rating
                   Row(
                     children: [
                       Expanded(
@@ -269,32 +255,31 @@ class _GemCard extends StatelessWidget {
 
                   const SizedBox(height: 6),
 
-                  // Category + address
                   Row(
                     children: [
                       Container(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8, vertical: 3),
                         decoration: BoxDecoration(
-                          color: Colors.purple.withOpacity(0.2),
+                          color: const Color(0xFF38BDF8).withOpacity(0.15),
                           borderRadius: BorderRadius.circular(6),
                         ),
-                        child: Text(gem.category,
-                            style: const TextStyle(
-                                color: Colors.purpleAccent,
+                        child: const Text('Architecture',
+                            style: TextStyle(
+                                color: Color(0xFF38BDF8),
                                 fontSize: 11,
                                 fontWeight: FontWeight.w600)),
                       ),
                       if (gem.address != null) ...[
                         const SizedBox(width: 8),
                         const Icon(Icons.location_on_outlined,
-                            color: Colors.white30, size: 12),
+                            color: Color(0xFF64748B), size: 12),
                         const SizedBox(width: 3),
                         Expanded(
                           child: Text(
                             gem.address!,
                             style: const TextStyle(
-                                color: Colors.white38, fontSize: 11),
+                                color: Color(0xFF94A3B8), fontSize: 11),
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
@@ -306,7 +291,7 @@ class _GemCard extends StatelessWidget {
                   Text(
                     gem.description,
                     style: const TextStyle(
-                        color: Colors.white60,
+                        color: Color(0xFF94A3B8),
                         fontSize: 13,
                         height: 1.5),
                     maxLines: 2,
@@ -322,12 +307,12 @@ class _GemCard extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8, vertical: 4),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.07),
+                          color: Colors.white.withOpacity(0.05),
                           borderRadius: BorderRadius.circular(6),
                         ),
                         child: Text(t,
                             style: const TextStyle(
-                                color: Colors.white54,
+                                color: Color(0xFF64748B),
                                 fontSize: 11)),
                       ))
                           .toList(),
@@ -346,16 +331,16 @@ class _GemCard extends StatelessWidget {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        backgroundColor: const Color(0xFF1E1E1E),
+        backgroundColor: const Color(0xFF1E293B),
         title: const Text('Remove gem?',
             style: TextStyle(color: Colors.white)),
         content: Text('Remove "${gem.name}" from your gems?',
-            style: const TextStyle(color: Colors.white60)),
+            style: const TextStyle(color: Color(0xFF94A3B8))),
         actions: [
           TextButton(
               onPressed: () => Navigator.pop(context),
               child: const Text('Cancel',
-                  style: TextStyle(color: Colors.white54))),
+                  style: TextStyle(color: Color(0xFF64748B)))),
           TextButton(
               onPressed: () {
                 Navigator.pop(context);
@@ -402,18 +387,6 @@ class _GemPhoto extends StatelessWidget {
     return _GemPlaceholder();
   }
 }
-//       return Image.file(File(gem.imagePath!), fit: BoxFit.cover);
-//     }
-//     if (gem.imageUrl != null) {
-//       return Image.network(
-//         gem.imageUrl!,
-//         fit: BoxFit.cover,
-//         errorBuilder: (_, __, ___) => _GemPlaceholder(),
-//       );
-//     }
-//     return _GemPlaceholder();
-//   }
-// }
 
 class _GemPlaceholder extends StatelessWidget {
   @override
@@ -431,9 +404,6 @@ class _GemPlaceholder extends StatelessWidget {
   );
 }
 
-// ─────────────────────────────────────────────
-// Add Gem Screen
-// ─────────────────────────────────────────────
 class AddGemScreen extends StatefulWidget {
   const AddGemScreen({super.key});
 
@@ -503,19 +473,19 @@ class _AddGemScreenState extends State<AddGemScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0D0D0D),
+      backgroundColor: const Color(0xFF0F172A),
       appBar: AppBar(
         title: const Text('Add Hidden Gem',
             style: TextStyle(
                 color: Colors.white, fontWeight: FontWeight.w700)),
-        backgroundColor: const Color(0xFF0D0D0D),
+        backgroundColor: const Color(0xFF0F172A),
         iconTheme: const IconThemeData(color: Colors.white),
         actions: [
           TextButton(
             onPressed: _save,
             child: const Text('Save',
                 style: TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.w700)),
+                    color: Color(0xFF38BDF8), fontWeight: FontWeight.w700)),
           ),
         ],
       ),
@@ -524,16 +494,15 @@ class _AddGemScreenState extends State<AddGemScreen> {
         child: ListView(
           padding: const EdgeInsets.all(20),
           children: [
-            // ── Photo picker ──
             GestureDetector(
               onTap: _pickImage,
               child: Container(
                 height: 180,
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.05),
+                  color: Colors.white.withOpacity(0.04),
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
-                      color: Colors.white.withOpacity(0.1), width: 1.5),
+                      color: Colors.white.withOpacity(0.08), width: 1.5),
                 ),
                 clipBehavior: Clip.hardEdge,
                 child: _imagePath != null
@@ -575,11 +544,11 @@ class _AddGemScreenState extends State<AddGemScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(Icons.add_photo_alternate_outlined,
-                        color: Colors.white38, size: 40),
+                        color: Color(0xFF64748B), size: 40),
                     SizedBox(height: 10),
                     Text('Add Photo',
                         style: TextStyle(
-                            color: Colors.white54,
+                            color: Color(0xFF94A3B8),
                             fontSize: 15,
                             fontWeight: FontWeight.w500)),
                   ],
@@ -589,7 +558,6 @@ class _AddGemScreenState extends State<AddGemScreen> {
 
             const SizedBox(height: 24),
 
-            // Name
             _DarkField(
               controller: _nameCtrl,
               label: 'Place Name',
@@ -600,7 +568,6 @@ class _AddGemScreenState extends State<AddGemScreen> {
             ),
             const SizedBox(height: 16),
 
-            // Description
             _DarkField(
               controller: _descCtrl,
               label: 'Description',
@@ -612,7 +579,6 @@ class _AddGemScreenState extends State<AddGemScreen> {
             ),
             const SizedBox(height: 16),
 
-            // Address
             _DarkField(
               controller: _addressCtrl,
               label: 'Address (optional)',
@@ -622,25 +588,24 @@ class _AddGemScreenState extends State<AddGemScreen> {
 
             const SizedBox(height: 24),
 
-            // Category dropdown
             const Text('Category',
                 style: TextStyle(
-                    color: Colors.white60,
+                    color: Color(0xFF94A3B8),
                     fontSize: 13,
                     fontWeight: FontWeight.w500)),
             const SizedBox(height: 10),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.06),
+                color: Colors.white.withOpacity(0.04),
                 borderRadius: BorderRadius.circular(14),
                 border: Border.all(
-                    color: Colors.white.withOpacity(0.1)),
+                    color: Colors.white.withOpacity(0.08)),
               ),
               child: DropdownButtonHideUnderline(
                 child: DropdownButton<String>(
                   value: _category,
-                  dropdownColor: const Color(0xFF1E1E1E),
+                  dropdownColor: const Color(0xFF1E293B),
                   style: const TextStyle(color: Colors.white),
                   isExpanded: true,
                   items: _categories
@@ -657,13 +622,12 @@ class _AddGemScreenState extends State<AddGemScreen> {
 
             const SizedBox(height: 24),
 
-            // Rating slider
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Text('Rating',
                     style: TextStyle(
-                        color: Colors.white60,
+                        color: Color(0xFF94A3B8),
                         fontSize: 13,
                         fontWeight: FontWeight.w500)),
                 Row(
@@ -684,17 +648,16 @@ class _AddGemScreenState extends State<AddGemScreen> {
               min: 1,
               max: 5,
               divisions: 8,
-              activeColor: Colors.white,
-              inactiveColor: Colors.white24,
+              activeColor: const Color(0xFF38BDF8),
+              inactiveColor: Colors.white12,
               onChanged: (v) => setState(() => _rating = v),
             ),
 
             const SizedBox(height: 16),
 
-            // Tags
             const Text('Tags',
                 style: TextStyle(
-                    color: Colors.white60,
+                    color: Color(0xFF94A3B8),
                     fontSize: 13,
                     fontWeight: FontWeight.w500)),
             const SizedBox(height: 10),
@@ -731,11 +694,11 @@ class _AddGemScreenState extends State<AddGemScreen> {
                   child: Container(
                     padding: const EdgeInsets.all(14),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: const Color(0xFF38BDF8),
                       borderRadius: BorderRadius.circular(14),
                     ),
                     child: const Icon(Icons.add,
-                        color: Colors.black, size: 20),
+                        color: Color(0xFF0F172A), size: 20),
                   ),
                 ),
               ],
@@ -753,21 +716,21 @@ class _AddGemScreenState extends State<AddGemScreen> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 12, vertical: 6),
                       decoration: BoxDecoration(
-                        color: Colors.purple.withOpacity(0.15),
+                        color: const Color(0xFF38BDF8).withOpacity(0.15),
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                            color: Colors.purpleAccent.withOpacity(0.3)),
+                            color: const Color(0xFF38BDF8).withOpacity(0.3)),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(e.value,
                               style: const TextStyle(
-                                  color: Colors.purpleAccent,
+                                  color: Color(0xFF38BDF8),
                                   fontSize: 12)),
                           const SizedBox(width: 4),
                           const Icon(Icons.close,
-                              color: Colors.purpleAccent, size: 13),
+                              color: Color(0xFF38BDF8), size: 13),
                         ],
                       ),
                     ),
@@ -782,8 +745,8 @@ class _AddGemScreenState extends State<AddGemScreen> {
               height: 54,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  foregroundColor: Colors.black,
+                  backgroundColor: const Color(0xFF38BDF8),
+                  foregroundColor: const Color(0xFF0F172A),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16)),
                 ),
@@ -831,25 +794,22 @@ class _DarkField extends StatelessWidget {
       decoration: InputDecoration(
         labelText: label.isEmpty ? null : label,
         hintText: hint,
-        labelStyle: const TextStyle(color: Colors.white54),
-        hintStyle: const TextStyle(color: Colors.white30),
-        prefixIcon: Icon(icon, color: Colors.white38, size: 20),
+        labelStyle: const TextStyle(color: Color(0xFF94A3B8)),
+        hintStyle: const TextStyle(color: Color(0xFF64748B)),
+        prefixIcon: Icon(icon, color: const Color(0xFF64748B), size: 20),
         filled: true,
-        fillColor: Colors.white.withOpacity(0.06),
+        fillColor: Colors.white.withOpacity(0.04),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide:
-          BorderSide(color: Colors.white.withOpacity(0.1)),
+          borderSide: BorderSide(color: Colors.white.withOpacity(0.08)),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide:
-          BorderSide(color: Colors.white.withOpacity(0.1)),
+          borderSide: BorderSide(color: Colors.white.withOpacity(0.08)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide:
-          const BorderSide(color: Colors.white54, width: 1.5),
+          borderSide: const BorderSide(color: Color(0xFF38BDF8), width: 1.5),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
