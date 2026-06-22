@@ -104,12 +104,12 @@ class _AddTripScreenState extends State<AddTripScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0D0D0D),
+      backgroundColor: const Color(0xFF0F172A),
       appBar: AppBar(
         title: const Text('New Trip',
             style: TextStyle(
                 color: Colors.white, fontWeight: FontWeight.w700)),
-        backgroundColor: const Color(0xFF0D0D0D),
+        backgroundColor: const Color(0xFF0F172A),
         iconTheme: const IconThemeData(color: Colors.white),
         actions: [
           TextButton(

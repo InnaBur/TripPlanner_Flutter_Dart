@@ -35,7 +35,7 @@ class TripCard extends StatelessWidget {
         margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: const Color(0xFF1A1A1A),
+          color: const Color(0xFF0F172A),
           border: Border.all(color: Colors.white.withOpacity(0.07)),
         ),
         clipBehavior: Clip.hardEdge,
