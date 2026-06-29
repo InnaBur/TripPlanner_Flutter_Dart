@@ -188,33 +188,27 @@ class _PhotoHeader extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          // Image (local file takes priority over URL)
-          if (trip.imagePath != null)
+          // Image
+          if (trip.imagePath != null && !trip.imagePath!.startsWith('assets/'))
             Image.file(File(trip.imagePath!), fit: BoxFit.cover)
-          else if (trip.imageUrl != null)
-            Image.network(
-              trip.imageUrl!,
-              fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => _Placeholder(),
-            )
-          else
-            _Placeholder(),
+          else if (trip.imageUrl != null && trip.imageUrl!.startsWith('assets/'))
+            Image.asset(trip.imageUrl!, fit: BoxFit.cover,
+                errorBuilder: (_, __, ___) => _Placeholder())
+          else if (trip.imagePath != null && trip.imagePath!.startsWith('assets/'))
+              Image.asset(trip.imagePath!, fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) => _Placeholder())
+            else
+              _Placeholder(),
 
           // Bottom gradient
           Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: 80,
+            bottom: 0, left: 0, right: 0, height: 80,
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.transparent,
-                    const Color(0xFF1A1A1A),
-                  ],
+                  colors: [Colors.transparent, Color(0xFF1A1A1A)],
                 ),
               ),
             ),

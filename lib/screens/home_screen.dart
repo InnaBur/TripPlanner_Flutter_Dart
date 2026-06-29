@@ -278,7 +278,6 @@ class _StatPill extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 14),
         decoration: BoxDecoration(
-          // ЗМІНЕНО: Напівпрозорі картки поверх синього кольору
           color: Colors.white.withOpacity(0.05),
           borderRadius: BorderRadius.circular(14),
           border: Border.all(color: Colors.white.withOpacity(0.08)),
